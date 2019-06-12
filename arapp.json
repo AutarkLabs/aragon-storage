@@ -1,7 +1,7 @@
 {
   "roles": [
     {
-      "name": "Set a home app",
+      "name": "Register a key-value pair",
       "id": "REGISTER_DATA_ROLE",
       "params": []
     }
