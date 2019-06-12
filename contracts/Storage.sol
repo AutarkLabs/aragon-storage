@@ -1,16 +1,12 @@
 pragma solidity ^0.4.24;
 
-import "@aragon/core/contracts/apps/AragonApp.sol";
+import "@aragon/os/contracts/apps/AragonApp.sol";
 
 
 contract Storage is AragonApp {
 
     /// Events
     event Registered(bytes32 indexed key);
-
-    struct DataEntry {
-        string value;
-    }
 
     /// State: data registry
     mapping(bytes32 => string) internal registeredData;
@@ -28,6 +24,7 @@ contract Storage is AragonApp {
      * @param _key Data item that will be stored in the registry
      * @param _value Data content to be stored
      */
+
     function registerData(bytes32 _key, string _value) external auth(REGISTER_DATA_ROLE) {
         // TODO: check that _key is an app proxy
         // TODO: check that _key is installed in this org
