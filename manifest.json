@@ -1,13 +1,9 @@
 {
   "name": "Storage",
   "author": "Autark",
-  "description": "Headless app to set a home app for aragon organizations",
-  "details_url": "/dist/meta/details.md",
+  "description": "Store an organization's wide settings.",
+  "changelog_url": "https://github.com/AutarkLabs/aragon-storage/releases",
+  "details_url": "/meta/details.md",
   "source_url": "https://<placeholder-repository-url>",
-  "icons": [
-    {
-      "src": "/dist/meta/icon.svg",
-      "sizes": "56x56"
-    }
-  ]
+  "icons": [{ "src": "/meta/icon.svg", "sizes": "56x56" }]
 }
