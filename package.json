@@ -4,7 +4,7 @@
   "scripts": {
     "compile": "truffle compile",
     "apm:publish:major": "aragon apm publish major",
-    "dao:upgrade": "aragon dao update 0x5b6a3301a67A4bfda9D3a528CaD34cac6e7F8070 storage",
+    "dao:upgrade": "aragon dao upgrade 0x5b6a3301a67A4bfda9D3a528CaD34cac6e7F8070 storage",
     "publish-upgrade": "npm run apm:publish:major && npm run dao:upgrade",
     "lint": "solium --dir ./contracts",
     "test": "TRUFFLE_TEST=true npm run ganache-cli:test",

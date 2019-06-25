@@ -3,13 +3,13 @@ const { assertRevert } = require('@aragon/test-helpers/assertThrow')
 
 const Storage = artifacts.require('Storage.sol')
 const DAOFactory = artifacts.require(
-  '@aragon/core/contracts/factory/DAOFactory'
+  '@aragon/os/contracts/factory/DAOFactory'
 )
 const EVMScriptRegistryFactory = artifacts.require(
-  '@aragon/core/contracts/factory/EVMScriptRegistryFactory'
+  '@aragon/os/contracts/factory/EVMScriptRegistryFactory'
 )
-const ACL = artifacts.require('@aragon/core/contracts/acl/ACL')
-const Kernel = artifacts.require('@aragon/core/contracts/kernel/Kernel')
+const ACL = artifacts.require('@aragon/os/contracts/acl/ACL')
+const Kernel = artifacts.require('@aragon/os/contracts/kernel/Kernel')
 
 const getContract = name => artifacts.require(name)
 
@@ -80,7 +80,7 @@ contract('Storage', accounts => {
 
   it('should set a key-value pair for home app', async () => {
     app.initialize()
-    await app.registerData(0x1e, 0xba, { from: firstAccount })
-    assert.equal(await app.call('getRegisteredData', 0x1e), 0xba)
+    await app.registerData(0x1e, '0xdeadcow', { from: firstAccount })
+    assert.equal(await app.getRegisteredData(0x1e), '0xdeadcow')
   })
 })
