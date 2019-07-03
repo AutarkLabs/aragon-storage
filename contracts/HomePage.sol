@@ -9,11 +9,11 @@ contract HomePage is AragonApp {
     event WidgetAdded();
     event WidgetRemoved();
     event WidgetsReordered();
-    event WidgetUpdated(uint8 indexed index, string indexed cId);
+    event WidgetUpdated(bytes32 indexed _priority);
 
     /// Struct
     struct Widget {
-        string cId;
+        string addr;
         bool deleted;
     }
 
@@ -40,26 +40,22 @@ contract HomePage is AragonApp {
     }
 
     /**
-     * @notice Update widget `_index` to ipfs://`_cId`
-     * @param _index Index of the widget
+     * @notice Update widget `_priority` to https://ipfs.infura.io/ipfs/`_addr`
+     * @param _priority Index of the widget
      * @param _addr IPFS hash of the widget's data
      */
-    function updateWidget(uint8 _index, string _cId) external auth(UPDATE_ROLE) {
-        Widget storage widget = widgets[_index];
-        widget.cId = _cId;
-        widget.deleted = false;
-        emit WidgetUpdated(_index, _cId);
+    function updateWidget(bytes32 _priority, string _addr) external auth(UPDATE_ROLE) {
+        widgets[_priority] = Widget(_addr, false);
+        emit WidgetUpdated(_priority);
     }
 
     /**
      * @notice Get a widget's information
-     * @param  _index index of the widget
-     * @return cId the ipfs hash pointing to the content
-     * @return deleted in case the widget was removed
+     * @param  _priority index of the widget
      */
-    function getWidget(uint8 _index) external view returns(string cId, bool deleted) {
-        Widget memory widget = widgets[_index];
-        cId = widget.cId;
+    function getWidget(bytes32 _priority) external view returns(string addr, bool deleted) {
+        Widget memory widget = widgets[_priority];
+        addr = widget.addr;
         deleted = widget.deleted;
     }
 }
