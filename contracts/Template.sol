@@ -20,6 +20,7 @@ import "@aragon/apps-voting/contracts/Voting.sol";
 import "@aragon/apps-token-manager/contracts/TokenManager.sol";
 import "@aragon/apps-shared-minime/contracts/MiniMeToken.sol";
 
+import "./HomePage.sol";
 import "./Storage.sol";
 
 
@@ -68,9 +69,11 @@ contract Template is TemplateBase {
 
         address root = msg.sender;
         bytes32 appId = apmNamehash("storage");
+        bytes32 homeAppId = apmNamehash("home");
         bytes32 votingAppId = apmNamehash("voting");
         bytes32 tokenManagerAppId = apmNamehash("token-manager");
 
+        HomePage homeApp = HomePage(dao.newAppInstance(homeAppId, latestVersionAppBase(homeAppId)));
         Storage app = Storage(dao.newAppInstance(appId, latestVersionAppBase(appId)));
         Voting voting = Voting(dao.newAppInstance(votingAppId, latestVersionAppBase(votingAppId)));
         TokenManager tokenManager = TokenManager(dao.newAppInstance(tokenManagerAppId, latestVersionAppBase(tokenManagerAppId)));
@@ -79,6 +82,7 @@ contract Template is TemplateBase {
         token.changeController(tokenManager);
 
         app.initialize();
+        homeApp.initialize();
         tokenManager.initialize(token, true, 0);
         // Initialize apps
         voting.initialize(token, 50 * PCT, 20 * PCT, 1 days);
@@ -90,6 +94,11 @@ contract Template is TemplateBase {
 
         // TODO: Handle REGISTER_DATA_ROLE from voting instead of allowing everyone. 
         acl.createPermission(ANY_ENTITY, app, app.REGISTER_DATA_ROLE(), root);
+
+        acl.createPermission(voting, homeApp, homeApp.ADD_ROLE(), voting);
+        acl.createPermission(voting, homeApp, homeApp.REMOVE_ROLE(), voting);
+        acl.createPermission(voting, homeApp, homeApp.REORDER_ROLE(), voting);
+        acl.createPermission(voting, homeApp, homeApp.UPDATE_ROLE(), voting);
 
         // Clean up permissions
         acl.grantPermission(root, dao, dao.APP_MANAGER_ROLE());
