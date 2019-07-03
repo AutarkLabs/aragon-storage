@@ -1,7 +1,7 @@
 /* global artifacts contract before beforeEach it assert */
 const { assertRevert } = require('@aragon/test-helpers/assertThrow')
 
-const CounterApp = artifacts.require('CounterApp.sol')
+const Storage = artifacts.require('Storage.sol')
 const DAOFactory = artifacts.require(
   '@aragon/core/contracts/factory/DAOFactory'
 )
@@ -15,8 +15,8 @@ const getContract = name => artifacts.require(name)
 
 const ANY_ADDRESS = '0xffffffffffffffffffffffffffffffffffffffff'
 
-contract('CounterApp', accounts => {
-  let APP_MANAGER_ROLE, INCREMENT_ROLE, DECREMENT_ROLE
+contract('Storage', accounts => {
+  let APP_MANAGER_ROLE, REGISTER_DATA_ROLE
   let daoFact, appBase, app
 
   const firstAccount = accounts[0]
@@ -31,12 +31,11 @@ contract('CounterApp', accounts => {
       aclBase.address,
       regFact.address
     )
-    appBase = await CounterApp.new()
+    appBase = await Storage.new()
 
     // Setup constants
     APP_MANAGER_ROLE = await kernelBase.APP_MANAGER_ROLE()
-    INCREMENT_ROLE = await appBase.INCREMENT_ROLE()
-    DECREMENT_ROLE = await appBase.DECREMENT_ROLE()
+    REGISTER_DATA_ROLE = await appBase.REGISTER_DATA_ROLE()
   })
 
   beforeEach(async () => {
@@ -64,23 +63,14 @@ contract('CounterApp', accounts => {
       { from: firstAccount }
     )
 
-    app = CounterApp.at(
+    app = Storage.at(
       receipt.logs.filter(l => l.event === 'NewAppProxy')[0].args.proxy
     )
 
     await acl.createPermission(
       ANY_ADDRESS,
       app.address,
-      INCREMENT_ROLE,
-      firstAccount,
-      {
-        from: firstAccount,
-      }
-    )
-    await acl.createPermission(
-      ANY_ADDRESS,
-      app.address,
-      DECREMENT_ROLE,
+      REGISTER_DATA_ROLE,
       firstAccount,
       {
         from: firstAccount,
@@ -88,16 +78,9 @@ contract('CounterApp', accounts => {
     )
   })
 
-  it('should be incremented by any address', async () => {
+  it('should set a key-value pair for home app', async () => {
     app.initialize()
-    await app.increment(1, { from: secondAccount })
-    assert.equal(await app.value(), 1)
-  })
-
-  it('should not be decremented if already 0', async () => {
-    app.initialize()
-    return assertRevert(async () => {
-      return app.decrement(1)
-    })
+    await app.registerData(0x1e, 0xba, { from: firstAccount })
+    assert.equal(await app.call('getRegisteredData', 0x1e), 0xba)
   })
 })
