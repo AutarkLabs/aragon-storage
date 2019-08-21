@@ -4,8 +4,9 @@ import AragonApi from '@aragon/api';
 
 const api = new AragonApi();
 
-api.store(async (state, event) => {
+api.store((state, event) => {
   let newState;
+  console.log(state, event);
   switch (event.event) {
     default:
       return state;

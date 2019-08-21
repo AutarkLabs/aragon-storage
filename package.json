@@ -2,6 +2,7 @@
   "name": "aragon-storage",
   "version": "0.0.1",
   "scripts": {
+    "build:script": "cd app && npm run build:script && cd ..",
     "compile": "truffle compile",
     "apm:publish:major": "aragon apm publish major",
     "dao:upgrade": "aragon dao upgrade 0x5b6a3301a67A4bfda9D3a528CaD34cac6e7F8070 storage",
@@ -13,6 +14,7 @@
     "start:ipfs": "aragon run",
     "start:ipfs:template": "npm run start:ipfs -- --template Template --template-init @ARAGON_ENS",
     "start:http": "aragon run --http localhost:8001 --http-served-from ./dist",
+    "start:http:template": "rm -rf build && npm run start:http -- --template Template --template-init @ARAGON_ENS",
     "start:app": "cd app && npm start && cd ..",
     "truffle:dev": "truffle dev",
     "ganache-cli:test": "./node_modules/@aragon/test-helpers/ganache-cli.sh",
