@@ -1,6 +1,6 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { useAragonApi } from '@aragon/api-react';
-import { Main } from '@aragon/ui';
+import { Main, Button } from '@aragon/ui';
 import styled from 'styled-components';
 
 import { ipfs } from './ipfs';
@@ -14,7 +14,13 @@ function App() {
     <Main>
       <BaseLayout>
         {syncing && <Syncing />}
-        <div>yo</div>
+        <Button
+          onClick={() => {
+            api.registerData('0x42', 'value').toPromise();
+          }}
+        >
+          yo
+        </Button>
       </BaseLayout>
     </Main>
   );
