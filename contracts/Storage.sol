@@ -19,8 +19,6 @@ contract Storage is AragonApp {
     string provider;
     string uri;
 
-    StorageProvider storageProvider;
-
     /// Custom aragon constructor
     function initialize() public onlyInit {
         initialized();
