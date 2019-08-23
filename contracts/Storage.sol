@@ -7,7 +7,7 @@ contract Storage is AragonApp {
 
     /// Events
     event Registered(bytes32 indexed key);
-    event RegisterStorageProvidver(string provider, string uri);
+    event RegisterStorageProvidver(string provider, string uri, address providerSetter);
 
     /// State: data registry
     mapping(bytes32 => string) internal registeredData;
@@ -16,11 +16,8 @@ contract Storage is AragonApp {
     bytes32 constant public REGISTER_DATA_ROLE = keccak256("REGISTER_DATA_ROLE");
     bytes32 constant public REGISTER_STORAGE_PROVIDER_ROLE = keccak256("REGISTER_STORAGE_PROVIDER_ROLE");
 
-    struct StorageProvider {
-        string provider;
-        string uri;
-        address setter;
-    }
+    string provider;
+    string uri;
 
     StorageProvider storageProvider;
 
@@ -46,20 +43,16 @@ contract Storage is AragonApp {
         return registeredData[_key];
     }
 
-    function registerStorageProvider(string provider, string uri) external auth(REGISTER_STORAGE_PROVIDER_ROLE) {
-        StorageProvider memory storageting = storageProvider;
-        storageting.provider = provider;
-        storageting.uri = uri;
-        storageting.setter = msg.sender;
-        emit RegisterStorageProvidver(provider, uri);
+    function registerStorageProvider(string newProvider, string newUri) external auth(REGISTER_STORAGE_PROVIDER_ROLE) {
+        provider = newProvider;
+        uri = newUri;
+        emit RegisterStorageProvidver(provider, uri, msg.sender);
     }
 
-    function getStorageProvider() external view returns(string, string, address) {
-        StorageProvider memory storageting = storageProvider;
+    function getStorageProvider() external view returns(string, string) {
         return (
-            storageting.provider,
-            storageting.uri,
-            storageting.setter
+            provider,
+            uri
         );
     }
 }
