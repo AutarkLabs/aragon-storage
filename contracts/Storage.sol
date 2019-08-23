@@ -7,7 +7,7 @@ contract Storage is AragonApp {
 
     /// Events
     event Registered(bytes32 indexed key);
-    event RegisterStorageProvidver(string provider, string uri, address providerSetter);
+    event RegisterStorageProvider(string provider, string uri, address providerSetter);
 
     /// State: data registry
     mapping(bytes32 => string) internal registeredData;
@@ -44,7 +44,7 @@ contract Storage is AragonApp {
     function registerStorageProvider(string newProvider, string newUri) external auth(REGISTER_STORAGE_PROVIDER_ROLE) {
         provider = newProvider;
         uri = newUri;
-        emit RegisterStorageProvidver(provider, uri, msg.sender);
+        emit RegisterStorageProvider(provider, uri, msg.sender);
     }
 
     function getStorageProvider() external view returns(string, string) {
