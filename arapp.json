@@ -4,6 +4,11 @@
       "name": "Register a key-value pair",
       "id": "REGISTER_DATA_ROLE",
       "params": []
+    },
+    {
+      "name": "Register a storage provider",
+      "id": "REGISTER_STORAGE_PROVIDER_ROLE",
+      "params": []
     }
   ],
   "environments": {

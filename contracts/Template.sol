@@ -90,7 +90,7 @@ contract Template is TemplateBase {
 
         // TODO: Handle REGISTER_DATA_ROLE from voting instead of allowing everyone. 
         acl.createPermission(ANY_ENTITY, app, app.REGISTER_DATA_ROLE(), root);
-
+        acl.createPermission(ANY_ENTITY, app, app.REGISTER_STORAGE_PROVIDER_ROLE(), root);
         // Clean up permissions
         acl.grantPermission(root, dao, dao.APP_MANAGER_ROLE());
         acl.revokePermission(this, dao, dao.APP_MANAGER_ROLE());
