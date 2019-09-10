@@ -24,7 +24,7 @@ contract Storage is AragonApp {
     /// Custom aragon constructor
     function initialize() public onlyInit {
         provider = "aragon_association";
-        uri = "";
+        uri = "https://api.pinata.cloud";
         port = 5001;
         initialized();
     }
