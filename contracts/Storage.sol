@@ -7,7 +7,8 @@ contract Storage is AragonApp {
 
     /// Events
     event Registered(bytes32 indexed key);
-    event RegisterStorageProvider(string provider, string uri, address providerSetter);
+    event PinHash(string cid);
+    event RegisterStorageProvider(string provider, string uri, uint8 port, address providerSetter);
 
     /// State: data registry
     mapping(bytes32 => string) internal registeredData;
@@ -18,9 +19,13 @@ contract Storage is AragonApp {
 
     string provider;
     string uri;
+    uint8 port;
 
     /// Custom aragon constructor
     function initialize() public onlyInit {
+        provider = "aragon_association";
+        uri = "";
+        port = "5001";
         initialized();
     }
 
@@ -30,21 +35,23 @@ contract Storage is AragonApp {
      * @param _value Data content to be stored
      */
 
-    function registerData(bytes32 _key, string _value) external auth(REGISTER_DATA_ROLE) {
+    function registerData(bytes32 _key, string _cid) external auth(REGISTER_DATA_ROLE) {
         // TODO: check that _key is an app proxy
         // TODO: check that _key is installed in this org
-        registeredData[_key] = _value;
+        registeredData[_key] = _cid;
         emit Registered(_key);
+        emit PinHash(_cid);
     }
 
     function getRegisteredData(bytes32 _key) external view returns(string) {
         return registeredData[_key];
     }
 
-    function registerStorageProvider(string newProvider, string newUri) external auth(REGISTER_STORAGE_PROVIDER_ROLE) {
+    function registerStorageProvider(string newProvider, string newUri, uint8 newPort) external auth(REGISTER_STORAGE_PROVIDER_ROLE) {
         provider = newProvider;
         uri = newUri;
-        emit RegisterStorageProvider(provider, uri, msg.sender);
+        port = newPort;
+        emit RegisterStorageProvider(provider, uri, newPort, msg.sender);
     }
 
     function getStorageProvider() external view returns(string, string) {
