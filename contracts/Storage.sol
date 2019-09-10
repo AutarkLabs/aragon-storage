@@ -8,7 +8,7 @@ contract Storage is AragonApp {
     /// Events
     event Registered(bytes32 indexed key);
     event PinHash(string cid);
-    event RegisterStorageProvider(string provider, string uri, uint8 port, address providerSetter);
+    event RegisterStorageProvider(string provider, string uri, uint64 port, address providerSetter);
 
     /// State: data registry
     mapping(bytes32 => string) internal registeredData;
@@ -19,20 +19,20 @@ contract Storage is AragonApp {
 
     string provider;
     string uri;
-    uint8 port;
+    uint64 port;
 
     /// Custom aragon constructor
     function initialize() public onlyInit {
         provider = "aragon_association";
         uri = "";
-        port = "5001";
+        port = 5001;
         initialized();
     }
 
     /**
      * @notice Set `_key` data to `_value`
      * @param _key Data item that will be stored in the registry
-     * @param _value Data content to be stored
+     * @param _cid Data content to be stored
      */
 
     function registerData(bytes32 _key, string _cid) external auth(REGISTER_DATA_ROLE) {
@@ -47,7 +47,7 @@ contract Storage is AragonApp {
         return registeredData[_key];
     }
 
-    function registerStorageProvider(string newProvider, string newUri, uint8 newPort) external auth(REGISTER_STORAGE_PROVIDER_ROLE) {
+    function registerStorageProvider(string newProvider, string newUri, uint64 newPort) external auth(REGISTER_STORAGE_PROVIDER_ROLE) {
         provider = newProvider;
         uri = newUri;
         port = newPort;
