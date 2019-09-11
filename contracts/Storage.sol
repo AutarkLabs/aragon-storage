@@ -36,8 +36,6 @@ contract Storage is AragonApp {
      */
 
     function registerData(bytes32 _key, string _cid) external auth(REGISTER_DATA_ROLE) {
-        // TODO: check that _key is an app proxy
-        // TODO: check that _key is installed in this org
         registeredData[_key] = _cid;
         emit Registered(_key);
         emit PinHash(_cid);
