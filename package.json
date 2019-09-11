@@ -11,6 +11,7 @@
     "test:gas": "GAS_REPORTER=true npm test",
     "coverage": "SOLIDITY_COVERAGE=true npm run ganache-cli:test",
     "start:ipfs": "aragon run --client false",
+    "start:ipfs:template": "npm run start:ipfs -- --template Template --template-init @ARAGON_ENS",
     "truffle:dev": "truffle dev",
     "ganache-cli:test": "./node_modules/@aragon/test-helpers/ganache-cli.sh",
     "abi:extract": "truffle-extract --output abi/ --keys abi",
