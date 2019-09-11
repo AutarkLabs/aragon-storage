@@ -54,10 +54,11 @@ contract Storage is AragonApp {
         emit RegisterStorageProvider(provider, uri, newPort, msg.sender);
     }
 
-    function getStorageProvider() external view returns(string, string) {
+    function getStorageProvider() external view returns(string, string, uint64) {
         return (
             provider,
-            uri
+            uri,
+            port
         );
     }
 }
