@@ -71,7 +71,7 @@ contract Template is TemplateBase {
         bytes32 votingAppId = apmNamehash("voting");
         bytes32 tokenManagerAppId = apmNamehash("token-manager");
 
-        Storage app = Storage(dao.newAppInstance(appId, latestVersionAppBase(appId)));
+        Storage app = Storage(dao.newAppInstance(appId, latestVersionAppBase(appId), new bytes(0), true));
         Voting voting = Voting(dao.newAppInstance(votingAppId, latestVersionAppBase(votingAppId)));
         TokenManager tokenManager = TokenManager(dao.newAppInstance(tokenManagerAppId, latestVersionAppBase(tokenManagerAppId)));
 
@@ -88,7 +88,7 @@ contract Template is TemplateBase {
 
         acl.createPermission(ANY_ENTITY, voting, voting.CREATE_VOTES_ROLE(), root);
 
-        // TODO: Handle REGISTER_DATA_ROLE from voting instead of allowing everyone. 
+        // TODO: Handle REGISTER_DATA_ROLE from voting instead of allowing everyone.
         acl.createPermission(ANY_ENTITY, app, app.REGISTER_DATA_ROLE(), root);
         acl.createPermission(ANY_ENTITY, app, app.REGISTER_STORAGE_PROVIDER_ROLE(), root);
         // Clean up permissions
