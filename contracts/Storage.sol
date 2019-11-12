@@ -21,7 +21,7 @@ contract Storage is AragonApp {
     }
 
     /**
-     * @notice Set `_key` data to `_value`
+     * @notice Set `_key` data to `_cid`
      * @param _key Data item that will be stored in the registry
      * @param _cid Data content to be stored
      */
