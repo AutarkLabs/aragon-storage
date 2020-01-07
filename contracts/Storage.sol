@@ -7,6 +7,7 @@ contract Storage is AragonApp {
 
     /// Events
     event Registered(bytes32 indexed key);
+    event PinHash(string cid);
 
     /// State: data registry
     mapping(bytes32 => string) internal registeredData;
@@ -20,16 +21,15 @@ contract Storage is AragonApp {
     }
 
     /**
-     * @notice Set `_key` data to `_value`
+     * @notice Set `_key` data to `_cid`
      * @param _key Data item that will be stored in the registry
-     * @param _value Data content to be stored
+     * @param _cid Data content to be stored
      */
 
-    function registerData(bytes32 _key, string _value) external auth(REGISTER_DATA_ROLE) {
-        // TODO: check that _key is an app proxy
-        // TODO: check that _key is installed in this org
-        registeredData[_key] = _value;
+    function registerData(bytes32 _key, string _cid) external auth(REGISTER_DATA_ROLE) {
+        registeredData[_key] = _cid;
         emit Registered(_key);
+        emit PinHash(_cid);
     }
 
     function getRegisteredData(bytes32 _key) external view returns(string) {
